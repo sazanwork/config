@@ -24,7 +24,7 @@
     "./tsconfig.json": "./tsconfig/base.json"
   },
   "scripts": {
-    "test": "bash test/smoke.sh"
+    "test": "bash test/smoke.sh && bash test/integration.sh"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
