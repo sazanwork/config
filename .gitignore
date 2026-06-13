@@ -1,3 +1,7 @@
 node_modules/
 *.log
 test/.tmp/
+
+# Артефакты, специфичные пакету
+*.tgz
+.eslintcache
