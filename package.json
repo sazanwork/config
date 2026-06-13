@@ -1,0 +1,34 @@
+{
+  "name": "@mikitasazan/config",
+  "version": "0.0.0",
+  "description": "Shared Biome, ESLint and tsconfig presets for all projects",
+  "type": "module",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "biome",
+    "eslint",
+    "tsconfig"
+  ],
+  "exports": {
+    "./biome": "./biome/base.json",
+    "./biome-react": "./biome/react.json",
+    "./biome-astro": "./biome/astro.json",
+    "./eslint": "./eslint/base.mjs",
+    "./eslint-strict": "./eslint/strict.mjs",
+    "./tsconfig.json": "./tsconfig/base.json"
+  },
+  "scripts": {
+    "test": "bash test/smoke.sh"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.15",
+    "eslint": "^9.0.0",
+    "typescript": "^5.9.0"
+  }
+}
