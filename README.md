@@ -36,8 +36,18 @@ export default [{ rules: basePaddingRules }];
 TypeScript (`tsconfig.json`):
 
 ```jsonc
+// нейтральная строгая база
 { "extends": "@mikitasazan/config/tsconfig.json" }
+
+// Node-сервис (резолв модулей NodeNext, цель ES2023)
+{ "extends": "@mikitasazan/config/tsconfig-node" }
+
+// сборка через bundler — React / React Native / Next / Vite
+// (резолв Bundler, isolatedModules, noEmit)
+{ "extends": "@mikitasazan/config/tsconfig-bundler" }
 ```
 
 База строгая (`strict: true`); проект, не готовый к строгости, ослабляет нужные
-флаги у себя.
+флаги у себя. Пресеты `tsconfig-node` и `tsconfig-bundler` наследуют базу и лишь
+добавляют флаги среды. `jsx` намеренно не задан (он различается: `react-native`
+/ `preserve` / `react-jsx`) — его выставляет проект.

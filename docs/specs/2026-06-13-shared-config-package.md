@@ -72,6 +72,8 @@ Biome/ESLint падают на загрузке конфига ещё до пр�
     strict.mjs          # строгий супер-набор + brace-style (импортирует base)
   tsconfig/
     base.json           # строгая TS-база
+    node.json           # пресет: Node-сервис (NodeNext, ES2023)
+    bundler.json        # пресет: сборка bundler'ом (React/RN/Next/Vite)
   README.md
   docs/specs/2026-06-13-shared-config-package.md
 ```
@@ -91,7 +93,9 @@ Biome/ESLint падают на загрузке конфига ещё до пр�
     "./biome-astro": "./biome/astro.json",
     "./eslint": "./eslint/base.mjs",
     "./eslint-strict": "./eslint/strict.mjs",
-    "./tsconfig.json": "./tsconfig/base.json"
+    "./tsconfig.json": "./tsconfig/base.json",
+    "./tsconfig-node": "./tsconfig/node.json",
+    "./tsconfig-bundler": "./tsconfig/bundler.json"
   }
 }
 ```
@@ -99,6 +103,15 @@ Biome/ESLint падают на загрузке конфига ещё до пр�
 Имена Biome-экспортов — без `.json`: Biome считает специфайр, оканчивающийся на
 `.json`/`.jsonc`, относительным путём и не ищет в `node_modules` (подтверждено
 эмпирически на Biome 2.4.15).
+
+tsconfig-пресеты `tsconfig-node` (резолв `NodeNext`, цель `ES2023`) и
+`tsconfig-bundler` (резолв `Bundler`, `isolatedModules`, `noEmit`) наследуют
+строгую базу через относительный `extends: "./base.json"` и добавляют только
+флаги среды. `jsx` намеренно НЕ зашит — он различается между потребителями
+(`react-native` / `preserve` / `react-jsx`), его задаёт сам проект. Два кластера
+выделены по факту: анализ потребителей показал, что Node-сервисы и сборки
+React/RN/Next дублировали ровно эти наборы поверх базы. Покрыты дымовым тестом
+(наследование `strict` + ожидаемый `moduleResolution`).
 
 Минимальная версия Biome, на которую рассчитан конфиг: **>= 2.4.10**. `slow`
 (2.0.0-beta.6) её не удовлетворяет — апгрейд до миграции.

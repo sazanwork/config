@@ -40,5 +40,13 @@ out=$($ESLINT -c test/fixtures/eslint/eslint.config.mjs test/fixtures/eslint/bad
 echo "[tsconfig] строгая база ловит implicit any"
 out=$($TSC -p test/fixtures/tsconfig/tsconfig.json 2>&1); contains "strict catches implicit any" "TS7006" "$out"
 
+echo "[tsconfig node] пресет наследует strict + резолв NodeNext"
+out=$($TSC -p test/fixtures/tsconfig-node/tsconfig.json 2>&1); contains "node preset inherits strict" "TS7006" "$out"
+cfg=$($TSC -p test/fixtures/tsconfig-node/tsconfig.json --showConfig 2>&1); contains "node preset uses nodenext" "nodenext" "$cfg"
+
+echo "[tsconfig bundler] пресет наследует strict + резолв Bundler"
+out=$($TSC -p test/fixtures/tsconfig-bundler/tsconfig.json 2>&1); contains "bundler preset inherits strict" "TS7006" "$out"
+cfg=$($TSC -p test/fixtures/tsconfig-bundler/tsconfig.json --showConfig 2>&1); contains "bundler preset uses bundler" "bundler" "$cfg"
+
 if [ "$fail" -ne 0 ]; then echo "SMOKE TEST FAILED"; exit 1; fi
 echo "SMOKE TEST PASSED"
