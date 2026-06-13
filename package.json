@@ -4,6 +4,14 @@
   "description": "Shared Biome, ESLint and tsconfig presets for all projects",
   "type": "module",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikitasazan/config.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mikitasazan/config/issues"
+  },
+  "homepage": "https://github.com/mikitasazan/config#readme",
   "publishConfig": {
     "access": "public"
   },
