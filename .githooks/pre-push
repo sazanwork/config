@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+# managed-by: git-guards — local branch-protection guard.
+#
+# Refuses force-push and deletion of master|main. Replaces the server-side branch
+# protection / rulesets that GitHub disables on the Free plan for private repos.
+# LOCAL and bypassable (git push --no-verify): accident-prevention, not a hard wall.
+# >>> git-guards: branch-protection guard (force-push/delete of master|main) >>>
+guards_protected=" master main "
+guards_zero=0000000000000000000000000000000000000000
+while read -r guards_lref guards_lsha guards_rref guards_rsha; do
+  guards_b=${guards_rref#refs/heads/}
+  case "$guards_protected" in *" $guards_b "*) ;; *) continue ;; esac
+  if [ "$guards_lsha" = "$guards_zero" ]; then
+    echo "✗ pre-push: refusing to DELETE '$guards_b' on the remote. (--no-verify to override)" >&2
+    exit 1
+  fi
+  if [ "$guards_rsha" != "$guards_zero" ]; then
+    if ! git merge-base --is-ancestor "$guards_rsha" "$guards_lsha" 2>/dev/null; then
+      echo "✗ pre-push: refusing NON-FAST-FORWARD (force) push to '$guards_b'. (--no-verify to override)" >&2
+      exit 1
+    fi
+  fi
+done
+# <<< git-guards <<<
+exit 0

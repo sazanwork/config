@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+# managed-by: git-guards — enforce Conventional Commits on the subject line and
+# strip "Co-Authored-By: Claude" lines. Bypass with: git commit --no-verify
+set -e
+msg_file="$1"
+[ -f "$msg_file" ] || exit 0
+
+subject=$(grep -v '^#' "$msg_file" | sed -n '1p')
+case "$subject" in
+  Merge*|Revert*|"fixup!"*|"squash!"*) exit 0 ;;
+esac
+
+# Strip Co-Authored-By: Claude* lines (silent); leave real collaborators alone.
+tmp=$(mktemp "${msg_file}.XXXXXX")  # same filesystem as the target, so mv is atomic
+grep -viE '^Co-Authored-By: Claude' "$msg_file" > "$tmp" || true
+mv "$tmp" "$msg_file"
+
+subject=$(grep -v '^#' "$msg_file" | sed -n '1p')
+[ -z "$subject" ] && exit 0
+
+# type: subject  |  type(scope): subject  |  type!: subject (breaking)
+pattern='^(feat|fix|refactor|docs|chore|perf|style|test|build|ci|revert)(\([a-z0-9_-]+\))?!?: .+'
+if ! echo "$subject" | grep -qE "$pattern"; then
+  echo "" >&2
+  echo "✗ Commit rejected — subject needs a Conventional Commits type prefix." >&2
+  echo "  Your subject:  $subject" >&2
+  echo "  Allowed types: feat fix refactor docs chore perf style test build ci revert" >&2
+  echo "  Example:       feat(auth): add token refresh" >&2
+  echo "  Bypass (when you mean it): git commit --no-verify" >&2
+  exit 1
+fi
+exit 0
