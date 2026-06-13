@@ -96,7 +96,9 @@
         "noUselessElse": "error",
         "useLiteralEnumMembers": "error",
         "useShorthandAssign": "error",
-        "useBlockStatements": "error"
+        "useBlockStatements": "error",
+        "useFragmentSyntax": "off",
+        "useSelfClosingElements": "off"
       },
       "performance": { "noDelete": "error" }
     }
