@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# Canonical pre-commit hook shipped by @mikitasazan/config.
+# Lint-staged runs Biome (format + lint) then ESLint (padding) on staged files.
+# Installed via the package bin (see `prepare` script). Bypass: git commit --no-verify
+npx lint-staged

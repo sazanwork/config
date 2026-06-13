@@ -1,7 +1,7 @@
 {
   "name": "@mikitasazan/config",
-  "version": "1.0.0",
-  "description": "Shared Biome, ESLint and tsconfig presets for all projects",
+  "version": "1.1.0",
+  "description": "Shared Biome, ESLint, tsconfig presets and pre-commit hook for all projects",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -21,7 +21,10 @@
   "files": [
     "biome",
     "eslint",
-    "tsconfig"
+    "tsconfig",
+    "lint-staged",
+    "husky",
+    "bin"
   ],
   "exports": {
     "./biome": "./biome/base.json",
@@ -31,7 +34,11 @@
     "./eslint-strict": "./eslint/strict.mjs",
     "./tsconfig.json": "./tsconfig/base.json",
     "./tsconfig-node": "./tsconfig/node.json",
-    "./tsconfig-bundler": "./tsconfig/bundler.json"
+    "./tsconfig-bundler": "./tsconfig/bundler.json",
+    "./lint-staged": "./lint-staged/base.mjs"
+  },
+  "bin": {
+    "mikitasazan-config-init": "bin/init-hooks.mjs"
   },
   "scripts": {
     "test": "bash test/smoke.sh && bash test/integration.sh"
