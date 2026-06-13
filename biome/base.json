@@ -1,0 +1,104 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.15/schema.json",
+  "files": {
+    "includes": [
+      "**/*.{astro,js,jsx,ts,tsx,json,jsonc,css,md,mdx,yaml,yml}",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/build",
+      "!**/coverage",
+      "!**/.reassure",
+      "!**/.next",
+      "!**/.turbo",
+      "!**/.worktrees"
+    ],
+    "ignoreUnknown": false
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf",
+    "bracketSpacing": true
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "single",
+      "trailingCommas": "none",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSpacing": true
+    },
+    "globals": [
+      "__DEV__",
+      "jest",
+      "describe",
+      "it",
+      "test",
+      "expect",
+      "beforeEach",
+      "afterEach",
+      "beforeAll",
+      "afterAll"
+    ]
+  },
+  "json": {
+    "formatter": {
+      "enabled": true,
+      "expand": "auto",
+      "bracketSpacing": true,
+      "lineEnding": "lf",
+      "trailingCommas": "none",
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 100
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error",
+        "noUndeclaredVariables": "error",
+        "noUnreachable": "error"
+      },
+      "suspicious": {
+        "noConsole": {
+          "level": "warn",
+          "options": { "allow": ["error", "warn"] }
+        },
+        "noExplicitAny": "error",
+        "noRedundantUseStrict": "error",
+        "noShadowRestrictedNames": "error",
+        "noDebugger": "error",
+        "noVar": "error"
+      },
+      "style": {
+        "useConst": "error",
+        "useTemplate": "error",
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error",
+        "useLiteralEnumMembers": "error",
+        "useShorthandAssign": "error",
+        "useBlockStatements": "error"
+      },
+      "performance": { "noDelete": "error" }
+    }
+  }
+}
