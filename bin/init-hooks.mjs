@@ -3,30 +3,55 @@
 // Idempotent, no-clobber. Meant to run from the project root via the `prepare`
 // script, AFTER husky (e.g. "prepare": "husky && mikitasazan-config-init").
 //
-// - Writes .husky/pre-commit (npx lint-staged) only if there isn't already a
-//   hook that lints (never clobbers a foreign or existing-linting hook).
+// - Writes the pre-commit hook (npx lint-staged) into the directory git ACTUALLY
+//   reads hooks from (core.hooksPath), not a hardcoded .husky — a repo that
+//   routes hooks elsewhere (e.g. .githooks from git-guards) keeps its own dir.
+//   Never clobbers a foreign or existing-linting hook.
 // - Creates lint-staged.config.mjs re-exporting the shared preset, if the
 //   project has no lint-staged config at all.
 
-import { execSync } from 'node:child_process';
-import { copyFileSync, chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { copyFileSync, chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { dirname, isAbsolute, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const pkgDir = dirname(dirname(fileURLToPath(import.meta.url))); // package root
 
-let root;
-try {
-  root = execSync('git rev-parse --show-toplevel', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
-} catch {
-  root = process.cwd();
-}
+// execFile, not exec: no shell, so nothing here can be turned into a command.
+const git = (...args) => {
+  try {
+    return execFileSync('git', args, { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+  } catch {
+    return '';
+  }
+};
+
+const root = git('rev-parse', '--show-toplevel') || process.cwd();
 
 const log = (m) => console.log(`[mikitasazan-config] ${m}`);
+const warn = (m) => console.warn(`[mikitasazan-config] ⚠ ${m}`);
+
+// --- hook directory: whatever git really reads, not an assumption ---
+// core.hooksPath wins over the default. Husky sets it to .husky/_; git-guards
+// sets it to .githooks. Writing to .husky when git reads .githooks (or the other
+// way round) installs a hook that never runs — a silent no-op.
+const hooksPath = git('config', 'core.hooksPath');
+const usesHusky = hooksPath.includes('husky');
+const hookDir = hooksPath && !usesHusky
+  ? (isAbsolute(hooksPath) ? hooksPath : join(root, hooksPath))
+  : join(root, '.husky');
+
+// A repo can end up with hooks in a dir git no longer reads: husky rewrites
+// core.hooksPath on every `npm install`, so an earlier .githooks setup (branch
+// protection, commit-msg convention) goes quiet without any error. Say so.
+const strandedDir = join(root, '.githooks');
+if (usesHusky && existsSync(strandedDir) && readdirSync(strandedDir).length > 0) {
+  warn(`core.hooksPath points at husky (${hooksPath}), but .githooks/ still holds hooks — those are NOT running.`);
+  warn('Husky hijacks core.hooksPath. Drop `husky` from the `prepare` script and run: git config core.hooksPath .githooks');
+}
 
 // --- pre-commit hook (no-clobber) ---
-const huskyDir = join(root, '.husky');
-const preCommit = join(huskyDir, 'pre-commit');
+const preCommit = join(hookDir, 'pre-commit');
 if (existsSync(preCommit)) {
   const cur = readFileSync(preCommit, 'utf8');
   if (/lint-staged|npm run lint|biome|eslint/.test(cur)) {
@@ -35,10 +60,10 @@ if (existsSync(preCommit)) {
     log('existing pre-commit found (no lint) — not modified; add `npx lint-staged` if you want it');
   }
 } else {
-  mkdirSync(huskyDir, { recursive: true });
+  mkdirSync(hookDir, { recursive: true });
   copyFileSync(join(pkgDir, 'husky', 'pre-commit'), preCommit);
   chmodSync(preCommit, 0o755);
-  log('installed .husky/pre-commit (npx lint-staged)');
+  log(`installed ${preCommit.replace(`${root}/`, '')} (npx lint-staged)`);
 }
 
 // --- lint-staged config (only if the project has none) ---

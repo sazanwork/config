@@ -61,6 +61,16 @@
       "lineWidth": 100
     }
   },
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "quoteStyle": "double",
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineEnding": "lf",
+      "lineWidth": 100
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
