@@ -51,3 +51,14 @@ TypeScript (`tsconfig.json`):
 флаги у себя. Пресеты `tsconfig-node` и `tsconfig-bundler` наследуют базу и лишь
 добавляют флаги среды. `jsx` намеренно не задан (он различается: `react-native`
 / `preserve` / `react-jsx`) — его выставляет проект.
+
+## Release
+
+Единый ритуал для всех общих пакетов (канон — скилл `package-ops`):
+
+```bash
+npm run release -- patch|minor|major   # тесты → бамп+тег → пуш → публикация по механизму пакета
+npm run consumers:check                # кто потребляет пакет и на какой версии (дрифт → exit 1)
+```
+
+Карта потребителей — `consumers.json` в корне.

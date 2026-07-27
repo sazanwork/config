@@ -41,7 +41,9 @@
     "mikitasazan-config-init": "bin/init-hooks.mjs"
   },
   "scripts": {
-    "test": "bash test/smoke.sh && bash test/integration.sh"
+    "test": "bash test/smoke.sh && bash test/integration.sh",
+    "release": "bash scripts/release.sh",
+    "consumers:check": "node scripts/consumers-check.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.15",

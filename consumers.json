@@ -1,0 +1,5 @@
+[
+  { "repo": "~/Development/Projects/Business/playhub", "via": "npm" },
+  { "repo": "~/Development/Projects/Business/game-publisher", "via": "npm" },
+  { "repo": "~/Development/Projects/Business/one-q", "via": "npm" }
+]
