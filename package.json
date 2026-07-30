@@ -1,6 +1,6 @@
 {
   "name": "@mikitasazan/config",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Shared Biome, ESLint, tsconfig presets and pre-commit hook for all projects",
   "type": "module",
   "license": "MIT",
