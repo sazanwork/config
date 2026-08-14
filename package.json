@@ -6,12 +6,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mikitasazan/config.git"
+    "url": "git+https://github.com/sazanwork/config.git"
   },
   "bugs": {
-    "url": "https://github.com/mikitasazan/config/issues"
+    "url": "https://github.com/sazanwork/config/issues"
   },
-  "homepage": "https://github.com/mikitasazan/config#readme",
+  "homepage": "https://github.com/sazanwork/config#readme",
   "publishConfig": {
     "access": "public"
   },

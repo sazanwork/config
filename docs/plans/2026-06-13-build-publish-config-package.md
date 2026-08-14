@@ -775,10 +775,10 @@ npm adduser
 
 - [ ] **Step 2: [ПОЛЬЗОВАТЕЛЬ] Создать GitHub-репозиторий и положить секрет**
 
-Создать публичный репозиторий `github.com/mikitasazan/config`, затем:
+Создать публичный репозиторий `github.com/sazanwork/config`, затем:
 ```bash
 cd ~/Development/Projects/config
-git remote add origin https://github.com/mikitasazan/config.git
+git remote add origin https://github.com/sazanwork/config.git
 git push -u origin master
 ```
 В настройках репозитория: Settings → Secrets and variables → Actions → New secret → имя `NPM_TOKEN`, значение — Automation-токен из Step 1.

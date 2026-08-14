@@ -39,7 +39,7 @@ Biome/ESLint падают на загрузке конфига ещё до пр�
 ## 2. Решение (кратко)
 
 Один публичный npm-пакет `@mikitasazan/config` в новом репозитории
-`github.com/mikitasazan/config`. Внутри — Biome, ESLint и tsconfig в форме
+`github.com/sazanwork/config`. Внутри — Biome, ESLint и tsconfig в форме
 **база + пресеты**. Проекты ставят пакет как обычную зависимость; конфиг
 попадает в `node_modules` внутри выгруженного репозитория, поэтому он виден.
 Причина сбоев устраняется в корне.
