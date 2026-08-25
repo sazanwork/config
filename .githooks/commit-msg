@@ -1,4 +1,8 @@
 #!/usr/bin/env sh
+# >>> commit-body-guard >>>
+# Installed by mac-config: install-commit-body-guard.sh. Do not edit here.
+"$HOME/.claude/scripts/lib/commit-body-guard.sh" "$1" || exit 1
+# <<< commit-body-guard <<<
 # managed-by: git-guards — enforce Conventional Commits on the subject line and
 # strip "Co-Authored-By: Claude" lines. Bypass with: git commit --no-verify
 set -e
@@ -30,3 +34,4 @@ if ! echo "$subject" | grep -qE "$pattern"; then
   exit 1
 fi
 exit 0
+
