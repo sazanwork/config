@@ -75,7 +75,7 @@ Biome/ESLint падают на загрузке конфига ещё до пр�
     node.json           # пресет: Node-сервис (NodeNext, ES2023)
     bundler.json        # пресет: сборка bundler'ом (React/RN/Next/Vite)
   README.md
-  docs/specs/2026-06-13-shared-config-package.md
+  _docs/specs/2026-06-13-shared-config-package.md
 ```
 
 `package.json` (ключевое):

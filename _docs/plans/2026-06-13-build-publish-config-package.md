@@ -8,7 +8,7 @@
 
 **Tech Stack:** Node 22, Biome 2.4.x, ESLint 9 (flat config), TypeScript 5.9, GitHub Actions.
 
-**Спека:** `docs/specs/2026-06-13-shared-config-package.md`
+**Спека:** `_docs/specs/2026-06-13-shared-config-package.md`
 
 **Объём:** Это План A. Миграция потребителей — отдельный План B, он зависит от первой публикации из этого плана.
 
