@@ -64,8 +64,6 @@ Trusted Publishing: ни токена, ни одноразового кода. �
 npm version patch --no-git-tag-version   # в PR; после слияния на master:
 git checkout master && git pull
 git tag vX.Y.Z && git push origin vX.Y.Z   # тег vX.Y.Z = версия из package.json
-propagate                                  # точная версия во всех потребителях (канон — скилл `package-ops`)
 ```
 
-`propagate` живёт в `mac-config/home/bin/` и доступен из PATH. Карты потребителей нет:
-он находит их поиском по репозиториям.
+Потребители закреплены на точной версии: после публикации каждому — свой PR с новой версией.
