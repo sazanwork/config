@@ -56,11 +56,14 @@ TypeScript (`tsconfig.json`):
 
 Один ритуал для всех общих пакетов (канон — скилл `package-ops`):
 
+Публикация одна: версия поднимается в PR, после слияния тег `vX.Y.Z` пушится с master,
+дальше GitHub Actions (`.github/workflows/publish.yml`) публикует пакет через npm
+Trusted Publishing: ни токена, ни одноразового кода. Руками `npm publish` не запускают.
+
 ```bash
-release patch|minor|major   # из этого каталога
+npm version patch --no-git-tag-version   # в PR; после слияния на master:
+git checkout master && git pull
+git tag vX.Y.Z && git push origin vX.Y.Z   # тег vX.Y.Z = версия из package.json
 ```
 
-Тесты → бамп + тег → публикация из клона тега → точная версия во всех
-потребителях с прогоном их собственных проверок. `release` и `propagate` живут
-в `mac-config/home/bin/` и доступны из PATH. Карты потребителей нет: `propagate`
-находит их поиском по репозиториям.
+Потребители закреплены на точной версии: после публикации каждому — свой PR с новой версией.

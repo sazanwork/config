@@ -1,0 +1,66 @@
+# Publishes the package to npm through Trusted Publishing (OIDC): no token and
+# no one-time code. The trust is registered on npmjs.com against this exact
+# file name (publish.yml), so do not rename it. The job must run on a
+# GitHub-hosted runner: Trusted Publishing does not work on self-hosted ones.
+#
+# Release path: bump the version in a PR, merge it, then push the tag vX.Y.Z
+# from master. Only a full semver tag publishes; a floating tag such as v2
+# never matches the pattern below.
+name: Publish
+
+on:
+  push:
+    tags: ['v[0-9]+.[0-9]+.[0-9]+']
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      # A tag on an unmerged commit would publish what never passed a PR.
+      - name: Tagged commit must be on master
+        run: |
+          git fetch origin master
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/master
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      # A tag that does not match package.json would publish the wrong version.
+      - name: Tag must equal package version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if [ "$GITHUB_REF_NAME" != "v$VERSION" ]; then
+            echo "tag $GITHUB_REF_NAME does not match package.json version v$VERSION"
+            exit 1
+          fi
+
+      # Trusted Publishing needs npm 11.5.1 or newer. Node 24 normally ships
+      # it; upgrade inside this job only if the runner image is older.
+      - name: npm must support Trusted Publishing
+        run: |
+          at_least() { [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | head -n1)" = "$2" ]; }
+          if ! at_least "$(npm --version)" 11.5.1; then
+            npm install -g npm@^11.5.1
+          fi
+          echo "npm $(npm --version)"
+          at_least "$(npm --version)" 11.5.1
+
+      - run: npm ci
+
+      - name: Tests
+        run: npm test
+
+      # No NODE_AUTH_TOKEN and no secret: npm exchanges the job's OIDC identity
+      # for a short-lived publish credential.
+      - name: Publish
+        run: npm publish
