@@ -23,18 +23,22 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           fetch-depth: 0
 
       # A tag on an unmerged commit would publish what never passed a PR.
       - name: Tagged commit must be on master
         run: |
-          git fetch origin master
+          # fetch-depth: 0 above already fetched origin/master; the checkout
+          # keeps no credentials, so a second fetch is not possible (or needed).
           git merge-base --is-ancestor "$GITHUB_SHA" origin/master
 
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
+          # No dependency cache in a workflow that publishes (cache poisoning).
+          package-manager-cache: false
 
       # A tag that does not match package.json would publish the wrong version.
       - name: Tag must equal package version
