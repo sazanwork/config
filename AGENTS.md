@@ -7,4 +7,4 @@ Shared lint, format and TypeScript configs for the owner's projects. Read `READM
 - Gates: `npm test`.
 - Merge setup: `npm ci --ignore-scripts`.
 - Merge gates: `npm test`.
-- A lane never publishes to npm or pushes tags.
+- A lane never publishes to npm, never pushes tags, never touches another repository.
