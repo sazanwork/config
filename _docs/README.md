@@ -8,5 +8,4 @@ See the root [`README.md`](../README.md) for setup, public exports, and the rele
 command. Active work lives in GitHub Issues. See `git log` for the change history.
 
 See [`architecture.md`](architecture.md) for package structure,
-[`DECISIONS.md`](DECISIONS.md) for rationale, [`gotchas.md`](gotchas.md) for pitfalls,
-[`product/`](product/) for specifications.
+[`DECISIONS.md`](DECISIONS.md) for rationale, and [`gotchas.md`](gotchas.md) for pitfalls.
