@@ -1,22 +1,23 @@
-# Решения
+# Decisions
 
-## Указатель
+## Index
 
-| Решение | Суть |
+| Decision | Summary |
 |---|---|
-| [base-and-presets](#base-and-presets) | Общая нейтральная база дополняется средовыми пресетами |
-| [published-package](#published-package) | Конфиги доставляются версионируемым npm-пакетом |
+| [base-and-presets](#base-and-presets) | A neutral common base supports environment-specific presets. |
+| [published-package](#published-package) | Consumers install a versioned npm configuration package. |
 
-## Действующие решения
+## Active decisions
 
 ### base-and-presets
 
-Biome и TypeScript разделены на строгую общую базу и тонкие пресеты React,
-Astro, Node и bundler. Проект подключает только свою среду, поэтому серверный
-код не получает правила JSX, а различия потребителей остаются явными.
+Biome and TypeScript use a strict shared base and small presets for React,
+Astro, Node, and bundlers. Consumers opt into their own environment. This keeps
+JSX rules out of server-only projects and makes each consumer's setup explicit.
 
 ### published-package
 
-Общие конфиги публикуются как `@mikitasazan/config`, а не читаются по пути выше
-репозитория. Так один и тот же контракт доступен в локальной установке, CI и
-клоне без скрытой зависимости от структуры домашнего каталога.
+Consumers install the shared configurations as `@mikitasazan/config`. The
+package removes the need to read a config file from outside the repository.
+Local installs, CI, and fresh clones resolve the same package exports with
+any home directory layout.

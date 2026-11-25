@@ -1,19 +1,19 @@
-# Грабли
+# Gotchas
 
-## Указатель
+## Index
 
-| Грабля | Суть |
+| Gotcha | Summary |
 |---|---|
-| [biome-export-without-json](#biome-export-without-json) | Biome иначе трактует спецификатор как относительный путь |
-| [jsx-задаёт-потребитель](#jsx-задаёт-потребитель) | Один режим JSX не подходит всем средам |
+| [biome-export-without-json](#biome-export-without-json) | Biome can interpret the specifier as a relative path. |
+| [Consumers choose JSX](#jsx-задаёт-потребитель) | JSX modes vary by environment. | <!-- verbatim -->
 
 ### biome-export-without-json
 
-Публичные Biome-экспорты называются `biome`, `biome-react` и `biome-astro` без
-суффикса `.json`. Спецификатор с `.json` Biome может трактовать как
-относительный файл и не разрешить через `node_modules`.
+The public Biome exports are `biome`, `biome-react`, and `biome-astro`. Leave out
+the `.json` suffix. Biome can treat a specifier ending in `.json` as a relative
+file and fail to resolve it through `node_modules`.
 
-### jsx-задаёт-потребитель
+### «jsx-задаёт-потребитель»
 
-TypeScript-пресеты намеренно не задают `jsx`: React Native, Next.js и обычный
-React используют разные значения. Это поле остаётся в `tsconfig` потребителя.
+React Native, Next.js, and plain React use different JSX modes. TypeScript
+presets deliberately leave `jsx` for each consumer to set in its own `tsconfig`.

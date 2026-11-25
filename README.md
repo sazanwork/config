@@ -1,19 +1,20 @@
 # @mikitasazan/config
 
-Общие конфиги Biome, ESLint и TypeScript для всех проектов. Форма «база + пресеты».
+Shared Biome, ESLint, and TypeScript configurations for all projects.
+Use a common base and add the preset for your environment.
 
-## Установка
+## Install
 
 ```bash
 npm install -D @mikitasazan/config
 ```
 
-## Использование
+## Usage
 
-Biome (`biome.json`):
+Biome (`biome.json`)
 
 ```jsonc
-// бэкенд / любой не-фронтовый проект
+// Backend or another non-frontend project
 { "extends": ["@mikitasazan/config/biome"] }
 
 // React / React Native / Next
@@ -23,47 +24,50 @@ Biome (`biome.json`):
 { "extends": ["@mikitasazan/config/biome", "@mikitasazan/config/biome-astro"] }
 ```
 
-ESLint (`eslint.config.mjs`):
+ESLint (`eslint.config.mjs`)
 
 ```js
 import { basePaddingRules } from '@mikitasazan/config/eslint';
-// или строгий супер-набор:
+// Or use the strict superset:
 import { strictPaddingRules } from '@mikitasazan/config/eslint-strict';
 
 export default [{ rules: basePaddingRules }];
 ```
 
-TypeScript (`tsconfig.json`):
+TypeScript (`tsconfig.json`)
 
 ```jsonc
-// нейтральная строгая база
+// Neutral strict base
 { "extends": "@mikitasazan/config/tsconfig.json" }
 
-// Node-сервис (резолв модулей NodeNext, цель ES2023)
+// Node service (NodeNext module resolution, ES2023 target)
 { "extends": "@mikitasazan/config/tsconfig-node" }
 
-// сборка через bundler — React / React Native / Next / Vite
-// (резолв Bundler, isolatedModules, noEmit)
+// Bundler build — React / React Native / Next / Vite
+// (Bundler resolution, isolatedModules, noEmit)
 { "extends": "@mikitasazan/config/tsconfig-bundler" }
 ```
 
-База строгая (`strict: true`); проект, не готовый к строгости, ослабляет нужные
-флаги у себя. Пресеты `tsconfig-node` и `tsconfig-bundler` наследуют базу и лишь
-добавляют флаги среды. `jsx` намеренно не задан (он различается: `react-native`
-/ `preserve` / `react-jsx`) — его выставляет проект.
+The base enables strict mode (`strict: true`). Projects can relax individual
+options in their own config. The `tsconfig-node` and `tsconfig-bundler` presets
+extend the base and add only options for their environments. The shared config
+deliberately leaves `jsx` to each consumer because the mode varies by project
+(`react-native`, `preserve`, or `react-jsx`).
 
 ## Release
 
-Один ритуал для всех общих пакетов (канон — скилл `package-ops`):
+Follow the same release procedure for every shared package. The
+`package-ops` skill describes it.
 
-Публикация одна: версия поднимается в PR, после слияния тег `vX.Y.Z` пушится с master,
-дальше GitHub Actions (`.github/workflows/publish.yml`) публикует пакет через npm
-Trusted Publishing: ни токена, ни одноразового кода. Руками `npm publish` не запускают.
+Bump the version in a PR. After the PR merges, push the `vX.Y.Z` tag from master.
+GitHub Actions (`.github/workflows/publish.yml`) publishes through npm Trusted
+Publishing without a token or one-time code. Leave `npm publish` to that workflow.
 
 ```bash
-npm version patch --no-git-tag-version   # в PR; после слияния на master:
+npm version patch --no-git-tag-version   # In the PR, then on master after merging:
 git checkout master && git pull
-git tag vX.Y.Z && git push origin vX.Y.Z   # тег vX.Y.Z = версия из package.json
+git tag vX.Y.Z && git push origin vX.Y.Z   # The tag must match the version in package.json
 ```
 
-Потребители закреплены на точной версии: после публикации каждому — свой PR с новой версией.
+Consumers pin the exact version. After publishing, open a separate upgrade PR
+in each consumer repository.

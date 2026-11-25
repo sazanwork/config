@@ -1,14 +1,12 @@
 # config
 
-`@mikitasazan/config` — общий npm-пакет конфигураций Biome, ESLint и TypeScript.
-Он заменяет внешние относительно репозитория файлы версионируемой зависимостью,
-которая одинаково разрешается локально и в CI.
+`@mikitasazan/config` is the shared npm package for Biome, ESLint, and TypeScript
+configuration. It replaces files outside each repository with a versioned
+dependency that resolves consistently in local development and CI.
 
-Установка, публичные экспорты и релизная команда описаны в корневом
-[`README.md`](../README.md). Активная работа ведётся в GitHub Issues, история
-изменений — в `git log`.
+See the root [`README.md`](../README.md) for setup, public exports, and the release
+command. Active work lives in GitHub Issues. See `git log` for the change history.
 
-Что лежит рядом: [`architecture.md`](architecture.md) — как устроен пакет;
-[`DECISIONS.md`](DECISIONS.md) — почему так; [`gotchas.md`](gotchas.md) —
-грабли; [`product/`](product/) — спецификации; [`work/`](work/) — план,
-который ещё дренируется.
+See [`architecture.md`](architecture.md) for package structure,
+[`DECISIONS.md`](DECISIONS.md) for rationale, [`gotchas.md`](gotchas.md) for pitfalls,
+[`product/`](product/) for specifications.

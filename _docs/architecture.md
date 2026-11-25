@@ -1,13 +1,13 @@
-# Архитектура
+# Architecture
 
-| Возможность | Организация кода |
+| Capability | Code organization |
 |---|---|
-| Biome | `biome/base.json` задаёт нейтральную базу; `react.json` и `astro.json` добавляют пресеты |
-| ESLint | `eslint/base.mjs` экспортирует базовые правила, `strict.mjs` — строгий наднабор |
-| TypeScript | `tsconfig/base.json` хранит строгость, `node.json` и `bundler.json` — средовые настройки |
-| Git-хуки | `bin/`, `husky/` и `lint-staged/` устанавливают и запускают проверки потребителя |
-| Контракт пакета | `package.json` связывает публичные экспорты с файлами конфигурации |
-| Проверки | `test/smoke.sh` и `test/integration.sh` проверяют правила и установку пакета |
+| Biome | `biome/base.json` defines a neutral base. `react.json` and `astro.json` add presets. |
+| ESLint | `eslint/base.mjs` exports the base rules. `strict.mjs` exports the strict superset. |
+| TypeScript | `tsconfig/base.json` sets strict options. `node.json` and `bundler.json` set options for their environments. |
+| Git hooks | `bin/`, `husky/`, and `lint-staged/` install and run consumer checks. |
+| Package contract | `package.json` maps public exports to configuration files. |
+| Checks | `test/smoke.sh` and `test/integration.sh` verify rules and package installation. |
 
-Потребитель устанавливает пакет, выбирает базу и нужный пресет, после чего его
-собственные инструменты загружают конфигурацию через `exports`.
+Consumers install the package and choose the base and any presets they need.
+Their tools load the configurations through `exports`.
