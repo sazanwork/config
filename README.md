@@ -1,5 +1,7 @@
 # @mikitasazan/config
 
+[Project overview](_docs/README.md).
+
 Shared Biome, ESLint, and TypeScript configurations for all projects.
 Use a common base and add the preset for your environment.
 
