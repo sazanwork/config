@@ -58,8 +58,7 @@ deliberately leaves `jsx` to each consumer because the mode varies by project
 
 ## Release
 
-Follow the same release procedure for every shared package. The
-`package-ops` skill describes it.
+See the [shared package release procedure](https://github.com/mikitasazan/code-practices/blob/master/packs/ops/references/package.md#release).
 
 Bump the version in a PR. After the PR merges, push the `vX.Y.Z` tag from master.
 GitHub Actions (`.github/workflows/publish.yml`) publishes through npm Trusted
